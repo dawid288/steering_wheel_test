@@ -1,0 +1,7 @@
+-- The C compiler identification is unknown
+-- The ASM compiler identification is unknown
+-- Found assembler: arm-none-eabi-gcc
+-- Warning: Did not find file Compiler/-ASM
+-- Configuring incomplete, errors occurred!
+See also "D:/VS_Code_STM32_Workspace/steering_wheel_test/CMakeFiles/CMakeOutput.log".
+See also "D:/VS_Code_STM32_Workspace/steering_wheel_test/CMakeFiles/CMakeError.log".
