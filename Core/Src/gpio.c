@@ -57,15 +57,15 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, LCD_DC_Pin|LCD_RST_Pin|LCD_CS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = FULL_GAS_BUTTON_Pin;
+  GPIO_InitStruct.Pin = BUTTON_FULL_GAS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(FULL_GAS_BUTTON_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(BUTTON_FULL_GAS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin
                            PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = HALF_GAS_BUTTON_Pin|MODE1_BUTTON_Pin|MODE2_BUTTON_Pin|FUELCELL_RACE_MODE_Pin
-                          |FUELCELL_PREPARETORACE_MODE_Pin|FUELCELL_OFF_MODE_BUTTON_Pin|EMERGENCY_BUTTON_Pin;
+  GPIO_InitStruct.Pin = BUTTON_HALF_GAS_Pin|BUTTON_MODE1_Pin|BUTTON_MODE2_Pin|BUTTON_FUELCELL_RACE_MODE_Pin
+                          |BUTTON_FUELCELL_PREPARE_TO_RACE_MODE_Pin|BUTTON_FUELCELL_OFF_MODE_Pin|BUTTON_EMERGENCY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -78,7 +78,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PCPin PCPin */
-  GPIO_InitStruct.Pin = HORN_BUTTON_Pin|TIME_BUTTON_Pin;
+  GPIO_InitStruct.Pin = BUTTON_HORN_Pin|BUTTON_TIME_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -91,10 +91,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = SC_CLOSE_BUTTON_Pin;
+  GPIO_InitStruct.Pin = BUTTON_SC_CLOSE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(SC_CLOSE_BUTTON_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(BUTTON_SC_CLOSE_GPIO_Port, &GPIO_InitStruct);
 
 }
 

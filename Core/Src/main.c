@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "can.h"
 #include "dma.h"
 #include "spi.h"
 #include "usart.h"
@@ -102,6 +103,7 @@ int main(void)
   MX_DMA_Init();
   MX_SPI2_Init();
   MX_USART2_UART_Init();
+  MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
   // lv_init();
   // lv_port_disp_init();
@@ -123,7 +125,7 @@ int main(void)
   {
     //blink(); 
     //lv_timer_handler();
-    CheckButtons();
+    Buttons_OnTick();
     HAL_Delay(5);
     /* USER CODE END WHILE */
 
