@@ -14,6 +14,7 @@ extern "C" {
 #include "main.h"
 #include "ili9341.h"
 #include "ui.h"
+#include <stdio.h>
 
 /*********************
  *      DEFINES

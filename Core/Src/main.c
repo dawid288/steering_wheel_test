@@ -127,7 +127,6 @@ int main(void)
 
   int i = 0;
   char text[15];
-  lv_textarea_set_text(objects.speed_area, "0");
 
   /* USER CODE END 2 */
 
@@ -143,17 +142,11 @@ int main(void)
     lv_textarea_set_text(objects.speed_area, text);
     disp_set_time(min_counter, sec_counter, min_sum, sec_sum, time_send_flag);
     disp_set_lap_number(lap_number, lap_send_flag);
-    if(i >= 100)
+    if(i >= 60)
       i = 0;
     
 //       lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, LV_PART_MAIN);
 
-//       static lv_meter_scale_t * scale0;
-// lv_meter_indicator_t * indicator1;
-// static lv_meter_scale_t * scale2;
-// lv_meter_indicator_t * indicator3;
-// static lv_meter_scale_t * scale4;
-// lv_meter_indicator_t * indicator5;
 
     HAL_Delay(5);
     

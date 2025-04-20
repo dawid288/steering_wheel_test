@@ -151,8 +151,8 @@ void disp_set_time(uint16_t min_counter, uint16_t sec_counter, uint16_t min_sum,
         if(sec_counter != old_sec_counter)
         {
             old_sec_counter = sec_counter;
-            sprintf(buffer_time, "%lu:%lu", min_counter, sec_counter);
-            sprintf(buffer_total_time, "%lu:%lu", total_m, total_s);
+            sprintf(buffer_time, "%lu:%02lu", min_counter, sec_counter);
+            sprintf(buffer_total_time, "%lu:%02lu", total_m, total_s);
             lv_textarea_set_text(objects.lap_time_area, buffer_time);
             lv_textarea_set_text(objects.total_time_area, buffer_total_time);
         }

@@ -40,9 +40,9 @@ void create_screen_main() {
             {
                 lv_meter_scale_t *scale = lv_meter_add_scale(obj);
                 scale0 = scale;
-                lv_meter_set_scale_ticks(obj, scale, 41, 1, 5, lv_color_hex(0xffffffff));
-                lv_meter_set_scale_major_ticks(obj, scale, 8, 3, 10, lv_color_hex(0xffffffff), 10);
-                lv_meter_set_scale_range(obj, scale, 0, 100, 300, 120);
+                lv_meter_set_scale_ticks(obj, scale, 61, 1, 5, lv_color_hex(0xffffffff));
+                lv_meter_set_scale_major_ticks(obj, scale, 10, 3, 10, lv_color_hex(0xffffffff), 10);
+                lv_meter_set_scale_range(obj, scale, 0, 60, 300, 120);
                 {
                     lv_meter_indicator_t *indicator = lv_meter_add_needle_line(obj, scale, 3, lv_color_hex(0xffff0000), -3);
                     indicator1 = indicator;
@@ -66,7 +66,7 @@ void create_screen_main() {
             // lap_label
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.lap_label = obj;
-            lv_obj_set_pos(obj, 1, 222);
+            lv_obj_set_pos(obj, 5, 222);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "Lap num");
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -92,7 +92,7 @@ void create_screen_main() {
             // lap_number_area
             lv_obj_t *obj = lv_textarea_create(parent_obj);
             objects.lap_number_area = obj;
-            lv_obj_set_pos(obj, 0, 160);
+            lv_obj_set_pos(obj, 1, 160);
             lv_obj_set_size(obj, 62, 62);
             lv_textarea_set_max_length(obj, 128);
             lv_textarea_set_one_line(obj, false);
@@ -100,10 +100,11 @@ void create_screen_main() {
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffcfcaca), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_border_width(obj, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_text_font(obj, &lv_font_montserrat_36, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_textarea_set_text(objects.lap_number_area, "0");
         }
         {
             // time_label
@@ -118,15 +119,15 @@ void create_screen_main() {
             // lap_time_area
             lv_obj_t *obj = lv_textarea_create(parent_obj);
             objects.lap_time_area = obj;
-            lv_obj_set_pos(obj, 257, 163);
-            lv_obj_set_size(obj, 62, 62);
+            lv_obj_set_pos(obj, 251, 163);
+            lv_obj_set_size(obj, 68, 62);
             lv_textarea_set_max_length(obj, 128);
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffcfcaca), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_border_width(obj, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -135,15 +136,15 @@ void create_screen_main() {
             // total_time_area
             lv_obj_t *obj = lv_textarea_create(parent_obj);
             objects.total_time_area = obj;
-            lv_obj_set_pos(obj, 255, 85);
-            lv_obj_set_size(obj, 62, 62);
+            lv_obj_set_pos(obj, 250, 85);
+            lv_obj_set_size(obj, 68, 62);
             lv_textarea_set_max_length(obj, 128);
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_color(obj, lv_color_hex(0xffcfcaca), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_border_width(obj, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
