@@ -2,9 +2,12 @@
 #define BUTTON_H
 
 #include "gpio.h"
-#include "stm32l4xx_hal.h"
+#include "stm32l4xx.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include "tim.h"
+#include "can_ids.h"
+#include "can_controller.h"
 
 #define NUM_BUTTONS 11
 
@@ -18,9 +21,9 @@ typedef struct {
   uint16_t pin;
   ButtonState_t button_state;
   bool debouncing_flag;
-  uint32_t debouncing_start;
+  uint32_t can_id;
 } Button_t;
 
-void Buttons_OnTick();
+//void Buttons_OnTick();
 
 #endif
