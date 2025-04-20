@@ -42,7 +42,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+volatile uint16_t ms_counter = 0;
+volatile uint16_t sec_counter = 0;
+volatile uint16_t min_counter = 0;
+volatile uint16_t time_send_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,6 +62,7 @@
 extern CAN_HandleTypeDef hcan1;
 extern DMA_HandleTypeDef hdma_spi2_tx;
 extern SPI_HandleTypeDef hspi2;
+extern TIM_HandleTypeDef htim6;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -186,11 +190,23 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+  lv_tick_inc(1);
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
+  ms_counter++;
 
+  if (ms_counter >= 1000) {
+    ms_counter = 0;
+    sec_counter++;
+
+    if (sec_counter >= 60) {
+      sec_counter = 0;
+      min_counter++;
+    }
+
+    time_send_flag = 1;
+  }
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -200,6 +216,34 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32l4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles EXTI line1 interrupt.
+  */
+void EXTI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI1_IRQn 0 */
+
+  /* USER CODE END EXTI1_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(BUTTON_HORN_Pin);
+  /* USER CODE BEGIN EXTI1_IRQn 1 */
+
+  /* USER CODE END EXTI1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line4 interrupt.
+  */
+void EXTI4_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_IRQn 0 */
+
+  /* USER CODE END EXTI4_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(BUTTON_HALF_GAS_Pin);
+  /* USER CODE BEGIN EXTI4_IRQn 1 */
+
+  /* USER CODE END EXTI4_IRQn 1 */
+}
 
 /**
   * @brief This function handles DMA1 channel5 global interrupt.
@@ -230,6 +274,20 @@ void CAN1_RX0_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(BUTTON_TIME_Pin);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+  /* USER CODE END EXTI9_5_IRQn 1 */
+}
+
+/**
   * @brief This function handles SPI2 global interrupt.
   */
 void SPI2_IRQHandler(void)
@@ -241,6 +299,35 @@ void SPI2_IRQHandler(void)
   /* USER CODE BEGIN SPI2_IRQn 1 */
 
   /* USER CODE END SPI2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(BUTTON_SC_CLOSE_Pin);
+  HAL_GPIO_EXTI_IRQHandler(BUTTON_FULL_GAS_Pin);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM6 global interrupt, DAC channel1 and channel2 underrun error interrupts.
+  */
+void TIM6_DAC_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
+
+  /* USER CODE END TIM6_DAC_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim6);
+  /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
+
+  /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

@@ -21,14 +21,18 @@
 #include "can.h"
 #include "dma.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lvgl.h"
-#include "LCDController.h"
+#include "lcd_controller.h"
 #include "button.h"
+#include "can_controller.h"
+#include "ui.h"
+#include "screens.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,7 +53,14 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//extern osTimerId_t Button1_TimerHandle;
+extern lv_meter_indicator_t* indicator1;
+extern volatile uint16_t sec_counter;
+extern volatile uint16_t min_counter;
+extern volatile uint8_t time_send_flag;
+extern volatile uint16_t sec_sum;  
+extern volatile uint16_t min_sum;
+extern volatile uint8_t lap_send_flag;
+extern volatile uint8_t lap_number;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,6 +80,7 @@ int __io_putchar(int ch)
     HAL_UART_Transmit(&huart2, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
     return 1;
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -104,18 +116,18 @@ int main(void)
   MX_SPI2_Init();
   MX_USART2_UART_Init();
   MX_CAN1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  // lv_init();
-  // lv_port_disp_init();
+  CAN_Init(&hcan1);
+  CAN_FilterConfig(&hcan1);
+  lv_init();
+  lv_port_disp_init();
+  ui_init();
+  
 
-  // /* Change Active Screen's background color */
-  // lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x003a57), LV_PART_MAIN);
-  // lv_obj_set_style_text_color(lv_screen_active(), lv_color_hex(0xffffff), LV_PART_MAIN);
-
-  // /* Create a spinner */
-  // lv_obj_t * spinner = lv_spinner_create(lv_screen_active());
-  // lv_obj_set_size(spinner, 128, 128);
-  // lv_obj_align(spinner, LV_ALIGN_BOTTOM_MID, 0, 0);
+  int i = 0;
+  char text[15];
+  lv_textarea_set_text(objects.speed_area, "0");
 
   /* USER CODE END 2 */
 
@@ -123,10 +135,28 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    //blink(); 
-    //lv_timer_handler();
-    Buttons_OnTick();
+    lv_timer_handler();
+    ui_tick();
+    i++;
+    sprintf(text, "%d", i);
+    lv_meter_set_indicator_value(objects.speed_meter, indicator1, i);
+    lv_textarea_set_text(objects.speed_area, text);
+    disp_set_time(min_counter, sec_counter, min_sum, sec_sum, time_send_flag);
+    disp_set_lap_number(lap_number, lap_send_flag);
+    if(i >= 100)
+      i = 0;
+    
+//       lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, LV_PART_MAIN);
+
+//       static lv_meter_scale_t * scale0;
+// lv_meter_indicator_t * indicator1;
+// static lv_meter_scale_t * scale2;
+// lv_meter_indicator_t * indicator3;
+// static lv_meter_scale_t * scale4;
+// lv_meter_indicator_t * indicator5;
+
     HAL_Delay(5);
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -14,6 +14,9 @@
 # EXTERNAL cache entries
 ########################
 
+//Build shared libraries
+BUILD_SHARED_LIBS:BOOL=OFF
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=D:/Strawberry/c/bin/addr2line.exe
 
@@ -225,6 +228,24 @@ CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=D:/VS_Code_STM32_Workspace/steering_wheel_tes
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Simple include of "lv_conf.h" and "lv_drv_conf.h"
+LV_CONF_INCLUDE_SIMPLE:BOOL=ON
+
+//Path defined for lv_conf.h
+LV_CONF_PATH:BOOL=OFF
+
+//Use #include "lvgl.h" instead of #include "../../lvgl.h"
+LV_LVGL_H_INCLUDE_SIMPLE:BOOL=ON
+
+//Value Computed by CMake
+lvgl_BINARY_DIR:STATIC=D:/VS_Code_STM32_Workspace/steering_wheel_test/build/Debug/steering_wheel/lvgl
+
+//Value Computed by CMake
+lvgl_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+lvgl_SOURCE_DIR:STATIC=D:/VS_Code_STM32_Workspace/steering_wheel_test/steering_wheel/lvgl
 
 //Value Computed by CMake
 steering_wheel_test_BINARY_DIR:STATIC=D:/VS_Code_STM32_Workspace/steering_wheel_test/build/Debug

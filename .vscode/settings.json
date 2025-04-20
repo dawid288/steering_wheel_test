@@ -4,6 +4,21 @@
         "cstdint": "c",
         "compare": "c",
         "freertos.h": "c",
-        "cmsis_os.h": "c"
+        "cmsis_os.h": "c",
+        "can_controller.h": "c",
+        "can.h": "c",
+        "can_ids.h": "c",
+        "optional": "c",
+        "memory": "c",
+        "functional": "c",
+        "iosfwd": "c",
+        "mutex": "c",
+        "sstream": "c",
+        "stop_token": "c",
+        "regex": "c",
+        "tuple": "c",
+        "typeinfo": "c",
+        "actions.h": "c",
+        "string.h": "c"
     }
 }

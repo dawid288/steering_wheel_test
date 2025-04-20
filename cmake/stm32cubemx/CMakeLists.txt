@@ -26,6 +26,7 @@ target_sources(stm32cubemx INTERFACE
     ../../Core/Src/can.c
     ../../Core/Src/dma.c
     ../../Core/Src/spi.c
+    ../../Core/Src/tim.c
     ../../Core/Src/usart.c
     ../../Core/Src/stm32l4xx_it.c
     ../../Core/Src/stm32l4xx_hal_msp.c
