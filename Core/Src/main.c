@@ -61,6 +61,10 @@ extern volatile uint16_t sec_sum;
 extern volatile uint16_t min_sum;
 extern volatile uint8_t lap_send_flag;
 extern volatile uint8_t lap_number;
+extern  uint8_t rx_data;
+extern volatile uint8_t send_vehicle_speed_flag;
+uint8_t disp_is_initialized_flag = 0;
+extern uint8_t volatile speed;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,16 +121,15 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CAN1_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  CAN_Init(&hcan1);
-  CAN_FilterConfig(&hcan1);
+  
   lv_init();
   lv_port_disp_init();
   ui_init();
-  
-
-  int i = 0;
-  char text[15];
+  CAN_Init(&hcan1);
+  CAN_FilterConfig(&hcan1);
+  //disp_is_initialized_flag = 1;
 
   /* USER CODE END 2 */
 
@@ -136,19 +139,15 @@ int main(void)
   {
     lv_timer_handler();
     ui_tick();
-    i++;
-    sprintf(text, "%d", i);
-    lv_meter_set_indicator_value(objects.speed_meter, indicator1, i);
-    lv_textarea_set_text(objects.speed_area, text);
     disp_set_time(min_counter, sec_counter, min_sum, sec_sum, time_send_flag);
     disp_set_lap_number(lap_number, lap_send_flag);
-    if(i >= 60)
-      i = 0;
-    
+    //disp_set_vehicle_speed(speed, send_vehicle_speed_flag);
+    //printf("data = %u\n", speed);
+    CAN_ReceiveMessage(&rx_data);
+  //   printf("data = %u\n", rx_data);
+  //  disp_set_vehicle_speed(rx_data, send_vehicle_speed_flag);
 //       lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, LV_PART_MAIN);
-
-
-    HAL_Delay(5);
+  HAL_Delay(5);
     
     /* USER CODE END WHILE */
 

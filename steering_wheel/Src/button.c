@@ -9,6 +9,9 @@ volatile uint16_t min_sum = 0;
 volatile uint8_t lap_send_flag = 0;
 volatile uint8_t lap_number = 0;
 
+extern volatile uint8_t send_vehicle_speed_flag;
+//extern volatile uint8_t rx_data;
+
 
 
 Button_t buttons[NUM_BUTTONS] = {
@@ -130,4 +133,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
       }
     }
   }
+  // else if (htim == &htim7)
+  // {
+  //   HAL_TIM_Base_Stop_IT(&htim7);
+  //   send_vehicle_speed_flag = 1;
+    
+  // }
 }

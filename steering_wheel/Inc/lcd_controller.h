@@ -42,6 +42,8 @@ void disp_set_time(uint16_t min_counter, uint16_t sec_counter, uint16_t min_sum,
 
 void disp_set_lap_number(uint8_t lap_number, uint8_t lap_send_flag);
 
+void disp_set_vehicle_speed(uint8_t rx_data, uint8_t send_vehicle_speed_flag);
+
 /**********************
  *      MACROS
  **********************/
