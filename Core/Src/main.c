@@ -33,6 +33,7 @@
 #include "can_controller.h"
 #include "ui.h"
 #include "screens.h"
+#include "steering_wheel.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,17 +55,7 @@
 
 /* USER CODE BEGIN PV */
 extern lv_meter_indicator_t* indicator1;
-extern volatile uint16_t sec_counter;
-extern volatile uint16_t min_counter;
-extern volatile uint8_t time_send_flag;
-extern volatile uint16_t sec_sum;  
-extern volatile uint16_t min_sum;
-extern volatile uint8_t lap_send_flag;
-extern volatile uint8_t lap_number;
-extern  uint8_t rx_data;
-extern volatile uint8_t send_vehicle_speed_flag;
-uint8_t disp_is_initialized_flag = 0;
-extern uint8_t volatile speed;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -123,30 +114,17 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  
-  lv_init();
-  lv_port_disp_init();
-  ui_init();
-  CAN_Init(&hcan1);
-  CAN_FilterConfig(&hcan1);
-  //disp_is_initialized_flag = 1;
-
+  steering_wheel_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    lv_timer_handler();
-    ui_tick();
-    disp_set_time(min_counter, sec_counter, min_sum, sec_sum, time_send_flag);
-    disp_set_lap_number(lap_number, lap_send_flag);
-    //disp_set_vehicle_speed(speed, send_vehicle_speed_flag);
-    //printf("data = %u\n", speed);
-    CAN_ReceiveMessage(&rx_data);
+    steering_wheel_loop();
   //   printf("data = %u\n", rx_data);
-  //  disp_set_vehicle_speed(rx_data, send_vehicle_speed_flag);
-//       lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, LV_PART_MAIN);
+  //disp_set_vehicle_speed(speed, send_vehicle_speed_flag);
+  
   HAL_Delay(5);
     
     /* USER CODE END WHILE */

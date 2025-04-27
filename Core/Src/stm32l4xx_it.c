@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lvgl.h"
+#include "steering_wheel.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,10 +43,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-volatile uint16_t ms_counter = 0;
-volatile uint16_t sec_counter = 0;
-volatile uint16_t min_counter = 0;
-volatile uint16_t time_send_flag = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -195,18 +193,21 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-  ms_counter++;
+  if(time_reset_button_press_counter > 0)
+  {
+      time.ms_counter++;
 
-  if (ms_counter >= 1000) {
-    ms_counter = 0;
-    sec_counter++;
+    if (time.ms_counter >= 1000) {
+      time.ms_counter = 0;
+      time.sec_counter++;
 
-    if (sec_counter >= 60) {
-      sec_counter = 0;
-      min_counter++;
+      if (time.sec_counter >= 60) {
+        time.sec_counter = 0;
+        time.min_counter++;
+      }
+
+      flags.time_send_flag = 1;
     }
-
-    time_send_flag = 1;
   }
   /* USER CODE END SysTick_IRQn 1 */
 }

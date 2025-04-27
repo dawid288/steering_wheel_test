@@ -46,7 +46,7 @@ void create_screen_main() {
                 {
                     lv_meter_indicator_t *indicator = lv_meter_add_needle_line(obj, scale, 3, lv_color_hex(0xffff0000), -3);
                     indicator1 = indicator;
-                    lv_meter_set_indicator_value(obj, indicator, 30);
+                    lv_meter_set_indicator_value(obj, indicator, 0);
                 }
             }
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -131,6 +131,7 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_textarea_set_text(objects.lap_time_area, "0:00");
         }
         {
             // total_time_area
@@ -148,6 +149,7 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_textarea_set_text(objects.total_time_area, "0:00");
         }
         {
             // time_label_1

@@ -53,7 +53,6 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/steering_wheel/lvgl
     ${CMAKE_SOURCE_DIR}/steering_wheel/lvgl/src
     ${CMAKE_SOURCE_DIR}/can_ids
-    ${CMAKE_SOURCE_DIR}/steering_wheel/fonts
     ${CMAKE_SOURCE_DIR}/steering_wheel/ui
 )
 

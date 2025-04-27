@@ -1,20 +1,10 @@
 #include "button.h"
 
 extern TIM_HandleTypeDef htim6;
-extern uint8_t tx_data;
-extern volatile uint16_t sec_counter;
-extern volatile uint16_t min_counter;
-volatile uint16_t sec_sum = 0;  
-volatile uint16_t min_sum = 0;
-volatile uint8_t lap_send_flag = 0;
-volatile uint8_t lap_number = 0;
 
-extern volatile uint8_t send_vehicle_speed_flag;
-//extern volatile uint8_t rx_data;
+buttons_states_t button_states;
 
-
-
-Button_t buttons[NUM_BUTTONS] = {
+button_t buttons[NUM_BUTTONS] = {
     {BUTTON_FULL_GAS_GPIO_Port, BUTTON_FULL_GAS_Pin, BUTTON_STATE_RELEASED, 0,
      CAN_ID_IS_GAS_BUTTON_PRESSED},
     {BUTTON_HALF_GAS_GPIO_Port, BUTTON_HALF_GAS_Pin, BUTTON_STATE_RELEASED, 0,
@@ -35,7 +25,6 @@ Button_t buttons[NUM_BUTTONS] = {
     {BUTTON_FUELCELL_OFF_MODE_GPIO_Port, BUTTON_FUELCELL_OFF_MODE_Pin,
      BUTTON_STATE_RELEASED, 0, 0},
 };
-
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
@@ -63,41 +52,55 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
             buttons[i].button_state == BUTTON_STATE_RELEASED) {
 
           buttons[i].button_state = BUTTON_STATE_PRESSED;
-          tx_data = BUTTON_STATE_PRESSED;
+          // tx_data = BUTTON_STATE_PRESSED;
+          button_states.all_button_states |= (1 << i);
+          tx_data[0] = (uint8_t)button_states.all_button_states & 0xFF;
+          tx_data[1] = (uint8_t)(button_states.all_button_states >> 8) & 0xFF;
 
           switch (buttons[i].pin) {
           case BUTTON_FULL_GAS_Pin:
             HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, tx_data, 2);
+            printf("g:%lu\r\n", tx_data[0]);
+            printf("g:%lu\r\n", tx_data[1]);
             break;
           case BUTTON_HALF_GAS_Pin:
             HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, &tx_data, 2);
             break;
           case BUTTON_TIME_Pin:
             HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
-
-             // dodajemy aktualny czas do sumy
-            sec_sum += sec_counter;
-            min_sum += min_counter;
-
-            // normalizacja czasu łącznego
-            if (sec_sum >= 60) {
-              min_sum += sec_sum / 60;
-              sec_sum = sec_sum % 60;
+            if (time_reset_button_press_counter > 0) {
+              tx_data[2] = lap_number;
+              tx_data[3] = time.min_counter;
+              tx_data[4] = time.sec_counter;
+              printf("t:%lu\r\n", tx_data[0]);
+              printf("t:%lu\r\n", tx_data[1]);
+              printf("%u\r\n", tx_data[2]);
+              printf("%u\r\n", tx_data[3]);
+              printf("%u\r\n", tx_data[4]);
+              CAN_SendMessage(buttons[i].can_id, tx_data, 5);
             }
 
-            sec_counter = 0;
-            min_counter = 0;
+            time_reset_button_press_counter++;
+
+            time.sec_sum += time.sec_counter;
+            time.min_sum += time.min_counter;
+
+            if (time.sec_sum >= 60) {
+              time.min_sum += time.sec_sum / 60;
+              time.sec_sum = time.sec_sum % 60;
+            }
+
+            time.sec_counter = 0;
+            time.min_counter = 0;
 
             lap_number++;
-            lap_send_flag = 1;
-
+            flags.lap_send_flag = 1;
             break;
           case BUTTON_SC_CLOSE_Pin:
             HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, &tx_data, 2);
             break;
           default:
             break;
@@ -107,24 +110,30 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
                    buttons[i].button_state == BUTTON_STATE_PRESSED) {
 
           buttons[i].button_state = BUTTON_STATE_RELEASED;
-          tx_data = BUTTON_STATE_RELEASED;
+          button_states.all_button_states &= ~(1 << i);
+          tx_data[0] = (uint8_t)button_states.all_button_states & 0xFF;
+          tx_data[1] = (uint8_t)(button_states.all_button_states >> 8) & 0xFF;
 
           switch (buttons[i].pin) {
           case BUTTON_FULL_GAS_Pin:
             HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, tx_data, 2);
+            printf("g:%lu\r\n", tx_data[0]);
+            printf("g:%lu\r\n", tx_data[1]);
             break;
           case BUTTON_HALF_GAS_Pin:
             HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, tx_data, 2);
             break;
           case BUTTON_TIME_Pin:
             HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, tx_data, 2);
+            printf("t:%lu\r\n", tx_data[0]);
+            printf("t:%lu\r\n", tx_data[1]);
             break;
           case BUTTON_SC_CLOSE_Pin:
             HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
-            CAN_SendMessage(buttons[i].can_id, &tx_data, 1);
+            CAN_SendMessage(buttons[i].can_id, tx_data, 2);
             break;
           default:
             break;
@@ -137,6 +146,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   // {
   //   HAL_TIM_Base_Stop_IT(&htim7);
   //   send_vehicle_speed_flag = 1;
-    
+
   // }
 }

@@ -4,17 +4,12 @@ CAN_TxHeaderTypeDef tx_header;
 CAN_RxHeaderTypeDef rx_header;
 
 uint8_t rx_data;
-uint8_t tx_data;
+uint8_t tx_data[8];
 
 uint32_t tx_mailbox;
-uint8_t volatile speed = 0;
 
-uint8_t volatile send_vehicle_speed_flag = 0;
-uint8_t volatile send_emergency_msg_flag = 0;
 
-extern uint8_t disp_is_initialized_flag;
-
-HAL_StatusTypeDef CAN_Init(CAN_HandleTypeDef *hcan) {
+void CAN_Init(CAN_HandleTypeDef *hcan) {
 
   tx_header.IDE = CAN_ID_STD;
   tx_header.RTR = CAN_RTR_DATA;
@@ -23,7 +18,7 @@ HAL_StatusTypeDef CAN_Init(CAN_HandleTypeDef *hcan) {
   //HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-HAL_StatusTypeDef CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
+void CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 
   CAN_FilterTypeDef filterConfig;
 
@@ -87,9 +82,9 @@ void CAN_ReceiveMessage(uint8_t *data) {
       if (rx_header.StdId == CAN_ID_IS_EMERGENCY) {
         //send_emergency_msg_flag = 1;
       } else if (rx_header.StdId == CAN_ID_VEHICLE_SPEED) {
-        send_vehicle_speed_flag = 1;
+        flags.send_vehicle_speed_flag = 1;
         uint8_t speed = *data;
-        disp_set_vehicle_speed(speed, send_vehicle_speed_flag);
+        disp_set_vehicle_speed(speed, flags.send_vehicle_speed_flag);
       }
     }
   }

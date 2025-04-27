@@ -28,7 +28,6 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area,
  **********************/
 static lv_disp_drv_t disp_drv;
 extern lv_meter_indicator_t *indicator1;
-extern uint8_t disp_is_initialized_flag;
 /**********************
  *      MACROS
  **********************/
