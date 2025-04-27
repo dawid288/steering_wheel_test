@@ -40,11 +40,11 @@ void create_screen_main() {
             {
                 lv_meter_scale_t *scale = lv_meter_add_scale(obj);
                 scale0 = scale;
-                lv_meter_set_scale_ticks(obj, scale, 61, 1, 5, lv_color_hex(0xffffffff));
+                lv_meter_set_scale_ticks(obj, scale, 51, 1, 5, lv_color_hex(0xffffffff));
                 lv_meter_set_scale_major_ticks(obj, scale, 10, 3, 10, lv_color_hex(0xffffffff), 10);
-                lv_meter_set_scale_range(obj, scale, 0, 60, 300, 120);
+                lv_meter_set_scale_range(obj, scale, 0, 50, 300, 120);
                 {
-                    lv_meter_indicator_t *indicator = lv_meter_add_needle_line(obj, scale, 3, lv_color_hex(0xffff0000), -3);
+                    lv_meter_indicator_t *indicator = lv_meter_add_needle_line(obj, scale, 5, lv_color_hex(0xffff0000), -3);
                     indicator1 = indicator;
                     lv_meter_set_indicator_value(obj, indicator, 0);
                 }
@@ -77,8 +77,8 @@ void create_screen_main() {
             objects.speed_area = obj;
             lv_obj_set_pos(obj, 116, 93);
             lv_obj_set_size(obj, 78, 78);
-            lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, LV_PART_MAIN);
             lv_textarea_set_max_length(obj, 128);
+            lv_textarea_set_text(obj, "0");
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_border_width(obj, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -87,6 +87,7 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
             // lap_number_area
@@ -95,6 +96,7 @@ void create_screen_main() {
             lv_obj_set_pos(obj, 1, 160);
             lv_obj_set_size(obj, 62, 62);
             lv_textarea_set_max_length(obj, 128);
+            lv_textarea_set_text(obj, "0");
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
@@ -104,7 +106,6 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_textarea_set_text(objects.lap_number_area, "0");
         }
         {
             // time_label
@@ -119,9 +120,10 @@ void create_screen_main() {
             // lap_time_area
             lv_obj_t *obj = lv_textarea_create(parent_obj);
             objects.lap_time_area = obj;
-            lv_obj_set_pos(obj, 251, 163);
-            lv_obj_set_size(obj, 68, 62);
+            lv_obj_set_pos(obj, 248, 163);
+            lv_obj_set_size(obj, 70, 62);
             lv_textarea_set_max_length(obj, 128);
+            lv_textarea_set_text(obj, "0:00");
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
@@ -131,15 +133,15 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_textarea_set_text(objects.lap_time_area, "0:00");
         }
         {
             // total_time_area
             lv_obj_t *obj = lv_textarea_create(parent_obj);
             objects.total_time_area = obj;
-            lv_obj_set_pos(obj, 250, 85);
-            lv_obj_set_size(obj, 68, 62);
+            lv_obj_set_pos(obj, 248, 85);
+            lv_obj_set_size(obj, 70, 62);
             lv_textarea_set_max_length(obj, 128);
+            lv_textarea_set_text(obj, "0:00");
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
@@ -149,12 +151,11 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_textarea_set_text(objects.total_time_area, "0:00");
         }
         {
-            // time_label_1
+            // total_time_label
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.time_label_1 = obj;
+            objects.total_time_label = obj;
             lv_obj_set_pos(obj, 245, 147);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "Total time");
@@ -167,6 +168,7 @@ void create_screen_main() {
             lv_obj_set_pos(obj, 1, 0);
             lv_obj_set_size(obj, 317, 38);
             lv_textarea_set_max_length(obj, 128);
+            lv_textarea_set_text(obj, "everything ok");
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_CURSOR | LV_STATE_FOCUS_KEY);
@@ -175,6 +177,41 @@ void create_screen_main() {
             lv_obj_set_style_border_width(obj, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // sc_voltage_bar
+            lv_obj_t *obj = lv_bar_create(parent_obj);
+            objects.sc_voltage_bar = obj;
+            lv_obj_set_pos(obj, 10, 38);
+            lv_obj_set_size(obj, 26, 101);
+            lv_bar_set_range(obj, 0, 70);
+            lv_obj_set_style_border_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_left(obj, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff2acf4f), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+        }
+        {
+            // sc_voltage_label
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.sc_voltage_label = obj;
+            lv_obj_set_pos(obj, 5, 139);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "SC_V");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // sc_voltage
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.sc_voltage = obj;
+            lv_obj_set_pos(obj, 41, 52);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "0 V");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
     }
     

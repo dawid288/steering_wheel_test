@@ -18,8 +18,11 @@ typedef struct _objects_t {
     lv_obj_t *time_label;
     lv_obj_t *lap_time_area;
     lv_obj_t *total_time_area;
-    lv_obj_t *time_label_1;
+    lv_obj_t *total_time_label;
     lv_obj_t *messages_area;
+    lv_obj_t *sc_voltage_bar;
+    lv_obj_t *sc_voltage_label;
+    lv_obj_t *sc_voltage;
 } objects_t;
 
 extern objects_t objects;
